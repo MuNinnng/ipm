@@ -57,3 +57,22 @@ def rotate_z(p, a=0):
     new_p = p @ translation_mat
 
     return new_p
+
+
+def rotate_x(p, a=0):
+    """Rotate point by a."""
+    # turn value to radians
+    a = math.radians(a)
+    translation_mat = np.matrix([
+        [math.cos(a),math.sin(a),0,0],
+        [-math.sin(a),math.cos(a),0,0],
+        [0,0,0,0],
+        [0,0,0,1],
+        ], dtype="float32")
+
+    new_p = p @ translation_mat
+
+    return new_p
+
+
+    
