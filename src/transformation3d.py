@@ -20,6 +20,7 @@ def translate3d(p, a=0, b=0, c=0):
 
     return new_p
 
+
 def scale3d(p, a=1, b=1, c=1):
     """Scales point by a, b and c.
 
