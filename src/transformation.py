@@ -1,3 +1,5 @@
+import math
+
 import numpy as np
 from matplotlib import pyplot as plt
 
@@ -37,6 +39,20 @@ def scale2d(p, a=1, b=1):
 
     return new_p
 
+def rotate2d(p, a=0):
+    """Rotate point by a."""
+    # turn value to radians
+    a = math.radians(a)
+    translation_mat = np.matrix([
+        [math.cos(a),math.sin(a),0],
+        [-math.sin(a),math.cos(a),0],
+        [0,0,1]
+        ], dtype="float32")
+
+    new_p = p @ translation_mat
+
+    return new_p
+
 def show2d(data):
     plt.plot(data[:,0], data[:,1], c="red", marker="o")
 
@@ -59,8 +75,8 @@ if __name__ == "__main__":
 
         # ])
 
-    new_p = translate2d(square, a=1, b=0)
-    new_p = scale2d(new_p, a=2, b=2)
+    new_p = rotate2d(square, a=45)
+    # new_p = scale2d(new_p, a=2, b=2)
     print(new_p)
     show2d(square)
     show2d(new_p)
