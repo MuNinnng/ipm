@@ -43,7 +43,7 @@ def scale3d(p, a=1, b=1, c=1):
     return new_p
 
 
-def rotate_x(p, a=0):
+def rotate_z(p, a=0):
     """Rotate point by a."""
     # turn value to radians
     a = math.radians(a)
