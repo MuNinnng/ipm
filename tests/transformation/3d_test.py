@@ -33,5 +33,5 @@ def test_x_rotation():
     # new values are not exectly the same, let round it
     new_p = np.floor(new_p)
 
-    assert np.all(new_p == expect_p), "Transformation along X axis does not correct: {}".format(new_p)
+    assert np.all(new_p == expect_p), "Transformation along X axis does not correct"
 
