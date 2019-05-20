@@ -34,11 +34,11 @@ class Transform(object):
         return np.linalg.inv(self.view_matrix)
 
     def homogenus_to_world(self, points):
-        w = coord[:,3]
-        res = np.zeros(coord.shape)
-        res[:,0] = coord[:,0]/w
-        res[:,1] = coord[:,1]/w
-        res[:,2] = coord[:,2]/w
+        w = points[:,3]
+        res = np.zeros(points.shape)
+        res[:,0] = points[:,0]/w
+        res[:,1] = points[:,1]/w
+        res[:,2] = points[:,2]/w
         return res[:,:3]
 
     def perspective(self, fov, aspect, near, far):
