@@ -10,13 +10,13 @@ class Pipeline(object):
         cam_matrix = self.transform.get_camera_matrix()
         return points @ cam_matrix
 
-    def to_image_space(self):
-        pass
+    def to_image_space(self, points):
+        return points @ self.transform.perspective_matrix
 
     def project(self, points):
         # convert objects to camera view
         res = camera_transform(points)
         # # convert to perspective view
-        # res = to_image_space(res)
+        res = to_image_space(res)
         # # convert to screen view(projection)
         # res = to_screen_space(res)
