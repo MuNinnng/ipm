@@ -26,6 +26,19 @@ class Pipeline(object):
         # # convert to screen view(projection)
         # res = to_screen_space(res)
 
+    def upproject(self, pixels):
+        w,h = self.viewport.size
+        # the Normalized Device Coordinates (NDC).
+        # turn pixel value to Image space coordinates
+        ndc_coords = np.zeros((pixels.shape[0], 4))
+        ndc_coords[:,0] = (ndc_coords[:,0] / w * 2) - 1
+        ndc_coords[:,1] = (ndc_coords[:,1] / h * 2) - 1
+        ndc_coords[:,2] = 0
+        ndc_coords[:,3] = 1
+
+
+        pass
+
 
 if __name__ == "__main__":
     from matplotlib import pyplot as plt
