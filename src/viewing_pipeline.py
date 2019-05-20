@@ -11,7 +11,9 @@ class Pipeline(object):
         return points @ cam_matrix
 
     def to_image_space(self, points):
-        return points @ self.transform.perspective_matrix
+        new_points = points @ self.transform.perspective_matrix
+        new_points = self.transform.homogenus_to_world(new_points)
+        return new_points
 
     def project(self, points):
         # convert objects to camera view

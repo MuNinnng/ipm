@@ -33,6 +33,14 @@ class Transform(object):
     def get_camera_matrix(self):
         return np.linalg.inv(self.view_matrix)
 
+    def homogenus_to_world(self, points):
+        w = coord[:,3]
+        res = np.zeros(coord.shape)
+        res[:,0] = coord[:,0]/w
+        res[:,1] = coord[:,1]/w
+        res[:,2] = coord[:,2]/w
+        return res[:,:3]
+
     def perspective(self, fov, aspect, near, far):
         """Generates a perspective projection matrix with given bounds.
 
