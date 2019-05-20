@@ -13,9 +13,25 @@ def to_3d(coord):
     res[:,2] = coord[:,2]/w
     return res[:,:3]
 
-class Matrix(object):
+class Transform(object):
     def __init__(self):
-        pass
+        self.view_matrix = np.identity(4)
+        # FIXME: use arguments during initialization of the class
+        self.perspective_matrix = self.perspective(45,1,1,500)
+
+    def set_camera(self, position):
+        """Set camera position in world coordinates.
+
+        Use minus sign, because camera movements are mirrored to the
+        world transformation. If we translate Z axis for 1 step back(-1) in world, it means to
+        make 1 step forward(+1) for camera.
+        """
+        self.view_matrix[3,0] = -position[0]
+        self.view_matrix[3,1] = -position[1]
+        self.view_matrix[3,2] = -position[2]
+
+    def get_camera_matrix(self):
+        return np.linalg.inv(self.view_matrix)
 
     def perspective(self, fov, aspect, near, far):
         """Generates a perspective projection matrix with given bounds.
@@ -52,33 +68,37 @@ class Matrix(object):
 if __name__ == "__main__":
     from matplotlib import pyplot as plt
 
-    m = Matrix()
-    p_mat = m.perspective(45, 1, 20, 5000)
+    t = Transform()
+    t.set_camera([0,0,10])
+    print(t.view_matrix)
+    print(t.get_camera_matrix())
 
-    p = np.array([[0,0,20, 1]])
-    p_new = p @ p_mat
-    p_new = np.floor(p_new)
-    print(p_new)
-    pp = to_3d(p_new)
-    print(pp)
+    # p_mat = m.perspective(45, 1, 20, 5000)
+
+    # p = np.array([[0,0,20, 1]])
+    # p_new = p @ p_mat
+    # p_new = np.floor(p_new)
+    # print(p_new)
+    # pp = to_3d(p_new)
+    # print(pp)
 
 
 
 
-    square = np.array([
-    [-1,-1,1,1],
-    [-1,1,1,1],
-    [1,1,1,1],
-    [1,-1,1,1],
-    [-1,-1,1,1],
-    ])
+    # square = np.array([
+    # [-1,-1,1,1],
+    # [-1,1,1,1],
+    # [1,1,1,1],
+    # [1,-1,1,1],
+    # [-1,-1,1,1],
+    # ])
 
-    p_square = square @ p_mat
-    p_square3d = to_3d(p_square)
-    print(p_square)
-    print(square[:,0])
-    print(p_square[:,0])
+    # p_square = square @ p_mat
+    # p_square3d = to_3d(p_square)
+    # print(p_square)
+    # print(square[:,0])
+    # print(p_square[:,0])
 
-    # plt.scatter(square[:,0], square[:,1])
-    plt.scatter(p_square3d[:,0], p_square3d[:,1])
-    plt.show()
+    # # plt.scatter(square[:,0], square[:,1])
+    # plt.scatter(p_square3d[:,0], p_square3d[:,1])
+    # plt.show()
