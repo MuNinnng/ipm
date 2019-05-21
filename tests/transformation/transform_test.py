@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-from src.transform import transform
+import numpy as np
+
+from src.transform import Transform
 
 
 def test_x_translation():
@@ -7,13 +9,14 @@ def test_x_translation():
 
     p = np.array([
         [0, 0, 0, 1],
-        ], dtype="float32")
+        ], dtype="float64")
 
     expect_p = np.array([
         [1, 0, 0, 1],
-        ], dtype="float32")
+        ], dtype="float64")
 
-    new_p = t.set_translation(x=1)
+    t.set_translation(x=1)
+    new_p = p @ t.view_matrix
 
     assert np.all(new_p == expect_p), "Translation for X axis does not correct"
 
@@ -23,13 +26,14 @@ def test_y_translation():
 
     p = np.array([
         [0, 0, 0, 1],
-        ], dtype="float32")
+        ], dtype="float64")
 
     expect_p = np.array([
         [0, 1, 0, 1],
-        ], dtype="float32")
+        ], dtype="float64")
 
-    new_p = t.set_translation(y=1)
+    t.set_translation(y=1)
+    new_p = p @ t.view_matrix
 
     assert np.all(new_p == expect_p), "Translation for Y axis does not correct"
 
@@ -39,13 +43,14 @@ def test_z_translation():
 
     p = np.array([
         [0, 0, 0, 1],
-        ], dtype="float32")
+        ], dtype="float64")
 
     expect_p = np.array([
         [0, 0, 1, 1],
-        ], dtype="float32")
+        ], dtype="float64")
 
-    new_p = t.set_translation(z=1)
+    t.set_translation(z=1)
+    new_p = p @ t.view_matrix
 
     assert np.all(new_p == expect_p), "Translation for Z axis does not correct"
 
@@ -55,12 +60,13 @@ def test_all_translation():
 
     p = np.array([
         [0, 0, 0, 1],
-        ], dtype="float32")
+        ], dtype="float64")
 
     expect_p = np.array([
         [100, 12, -2, 1],
-        ], dtype="float32")
+        ], dtype="float64")
 
-    new_p = t.set_translation(x=100,y=12,z=-2)
+    t.set_translation(x=100,y=12,z=-2)
+    new_p = p @ t.view_matrix
 
     assert np.all(new_p == expect_p), "Translation for ALL axis does not correct"
