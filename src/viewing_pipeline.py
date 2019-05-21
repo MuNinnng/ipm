@@ -18,10 +18,22 @@ class Pipeline(object):
         return new_points
 
     def project(self, points):
+        print("in",points)
+        camera_mat = self.transform.get_camera_matrix()
+        perspective_mat = self.transform.perspective_matrix
+
+        project_mat = camera_mat @ perspective_mat
+        # project_mat = perspective_mat @ camera_mat
         # convert objects to camera view
-        res = self.camera_transformation(points)
+        # res = self.camera_transformation(points)
         # # convert to perspective view
-        res = self.to_image_space(res)
+        # res = self.to_image_space(res)
+
+        res = points @ project_mat
+        print("out1",res)
+
+        res = self.transform.homogenus_to_world(res)
+        print("out2",res)
         return res
         # # convert to screen view(projection)
         # res = to_screen_space(res)
@@ -49,7 +61,7 @@ class Pipeline(object):
         perspective_mat = self.transform.perspective_matrix
         view_mat = self.transform.get_camera_matrix()
         # FIXME does not work for some reason
-        unproject_mat = np.linalg.inv(perspective_mat @ view_mat)
+        unproject_mat = np.linalg.inv(view_mat @ perspective_mat)
 
         new_near_points = ndc_near_coords @ unproject_mat
         new_near_points = self.transform.homogenus_to_world(new_near_points)
@@ -57,20 +69,39 @@ class Pipeline(object):
         new_far_points = ndc_far_coords @ unproject_mat
         new_far_points = self.transform.homogenus_to_world(new_far_points)
 
-        print(new_near_points)
-        print(new_far_points)
+        vec = new_far_points - new_near_points
+
+        print(vec)
+        # print(new_favecr_points)
 
 
 if __name__ == "__main__":
     from matplotlib import pyplot as plt
     from renderer import Viewport
+    
+    origin = np.array([
+        [0,0,0,1],
+        ])
+
+    x_axis = np.array([
+        [0,0,0,1],
+        [1,0,0,1],
+        ])
+    y_axis = np.array([
+        [0,0,0,1],
+        [0,1,0,1],
+        ])
+    z_axis = np.array([
+        [0,0,0,1],
+        [0,0,1,1],
+        ])
+
 
     square = np.array([
-        [-1,-1,1,1],
-        [-1,1,1,1],
-        [1,1,1,1],
-        [1,-1,1,1],
-        [-1,-1,1,1],
+        [0,0],
+        [0,1],
+        [1,1],
+        [1,0],
         ])
 
     square = np.array([
@@ -85,20 +116,38 @@ if __name__ == "__main__":
         ])
 
     pixels = np.array([
-        [25,25]
+        [50,50]
         ])
 
 
     pl = Pipeline()
-    pl.transform.set_camera([0,0,50])
+    pl.transform.set_camera([10, 0, 100])
     # projected_p = pl.project(square)
+    projected_origin = pl.project(origin)
+    # projected_x_axis = pl.project(x_axis)
+    # projected_y_axis = pl.project(y_axis)
+    # projected_z_axis = pl.project(z_axis)
+    # print(projected_p)
 
-    unprojected = pl.unproject(pixels, (50,50))
+    # unprojected = pl.unproject(pixels, (50,50))
 
-    # vp = Viewport((100,200))
+    vp = Viewport((50,50))
     # vp.render(projected_p)
+    vp.render(projected_origin, color=255)
+    # vp.render(projected_y_axis, color=100)
+    # vp.render(projected_z_axis, color=50)
 
     # print(vp.data)
 
-    # plt.imshow(vp.data)
-    # plt.show()
+    plt.imshow(vp.data)
+    plt.show()
+
+
+ #    [[-0.13928156 -0.04642719  0.94616159]
+ # [-0.04642719  0.04642719  0.94616159]
+ # [ 0.04642719  0.04642719  0.94616159]
+ # [ 0.04642719 -0.04642719  0.94616159]
+ # [-0.04733752 -0.04733752  0.94502735]
+ # [-0.04733752  0.04733752  0.94502735]
+ # [ 0.04733752  0.04733752  0.94502735]
+ # [ 0.04733752 -0.04733752  0.94502735]]
