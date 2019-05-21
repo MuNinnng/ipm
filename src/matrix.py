@@ -4,15 +4,6 @@ import math
 import numpy as np
 
 
-def to_3d(coord):
-    w = coord[:,3]
-    res = np.zeros(coord.shape)
-    print(w)
-    res[:,0] = coord[:,0]/w
-    res[:,1] = coord[:,1]/w
-    res[:,2] = coord[:,2]/w
-    return res[:,:3]
-
 class Transform(object):
     def __init__(self):
         self.view_matrix = np.identity(4)
@@ -26,9 +17,10 @@ class Transform(object):
         world transformation. If we translate Z axis for 1 step back(-1) in world, it means to
         make 1 step forward(+1) for camera.
         """
-        self.view_matrix[3,0] = -position[0]
-        self.view_matrix[3,1] = -position[1]
-        self.view_matrix[3,2] = -position[2]
+        print(position)
+        self.view_matrix[3,0] =  position[0]
+        self.view_matrix[3,1] = - position[1]
+        self.view_matrix[3,2] =  position[2]
 
     def get_camera_matrix(self):
         return np.linalg.inv(self.view_matrix)
