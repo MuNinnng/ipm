@@ -1,10 +1,13 @@
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageDraw
 
 
 class Viewport(object):
     def __init__(self, size):
+        self.size = size
         self.data = np.zeros(size)
+        self.image = Image.new('RGB', size, color=(255,255,255))
+        self.d = ImageDraw.Draw(self.image)
 
     def coords_to_pixels(self, points):
         w,h = self.data.shape
@@ -15,32 +18,33 @@ class Viewport(object):
         pixels = pixels[:,:2].astype(int)
         return pixels
 
-    def render(self, points, color):
-        w, h = self.data.shape
+    def draw_lines(self, points, color, width=1):
         pixels = self.coords_to_pixels(points)
+        points = [tuple(el) for el in pixels]
+        self.d.line(points, width=width, fill=color)
 
-        w_range = list(range(self.data.shape[0]))
-        h_range = list(range(self.data.shape[1]))
-        for pixel in pixels:
-            px,py = pixel
-            if px == w:
-                px = px - 1
-            if py == h:
-                py = py - 1
-            if px in w_range and py in h_range:
-                self.data[py, px] = color
+    def draw_points(self, points, color, width=1):
+        pixels = self.coords_to_pixels(points)
+        points = [tuple(el) for el in pixels]
+        self.d.point(points, fill=color)
 
 
 if __name__ == "__main__":
     from matplotlib import pyplot as plt
 
-    vp = Viewport((50,50))
+    x_axis = np.array([
+        [0,0,0,1],
+        [.5,0,0,1],
+        ])
+
+
+    vp = Viewport((500,500))
 
     test_data = np.array([
         [1,0,0]
         ])
-    vp.render(test_data, color=255)
+    vp.draw_line(x_axis, color=(0,0,255), width=1)
 
-    plt.imshow(vp.data)
+    plt.imshow(vp.image)
     plt.show()
 
