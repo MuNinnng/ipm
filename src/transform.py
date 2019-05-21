@@ -15,11 +15,37 @@ class Transform(object):
 
         Returns [x+a, y+b, z+c, 1]
         """
-        translation_mat = np.matrix([
+        translation_mat = np.array([
             [1,0,0,0],
             [0,1,0,0],
             [0,0,1,0],
             [x,y,z,1]
+            ], dtype="float64")
+
+        self.view_matrix = self.view_matrix @ translation_mat
+
+    def rotate_y(self, a=0):
+        """Rotate point by a."""
+        # turn value to radians
+        a = math.radians(a)
+        translation_mat = np.array([
+            [math.cos(a),0,-math.sin(a),0],
+            [0,1,0,0],
+            [math.sin(a),0,math.cos(a),0],
+            [0,0,0,1],
+            ], dtype="float32")
+
+        self.view_matrix = self.view_matrix @ translation_mat
+
+    def rotate_z(self, a=0):
+        """Rotate point by a."""
+        # turn value to radians
+        a = math.radians(a)
+        translation_mat = np.array([
+            [math.cos(a),math.sin(a),0,0],
+            [-math.sin(a),math.cos(a),0,0],
+            [0,0,1,0],
+            [0,0,0,1],
             ], dtype="float32")
 
         self.view_matrix = self.view_matrix @ translation_mat
