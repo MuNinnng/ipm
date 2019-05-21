@@ -23,6 +23,8 @@ class Pipeline(object):
         perspective_mat = self.transform.perspective_matrix
 
         project_mat = camera_mat @ perspective_mat
+        # project_mat = perspective_mat
+        project_mat = self.transform.view_matrix
         # project_mat = perspective_mat @ camera_mat
         # convert objects to camera view
         # res = self.camera_transformation(points)
@@ -30,6 +32,7 @@ class Pipeline(object):
         # res = self.to_image_space(res)
 
         res = points @ project_mat
+        # res = project_mat @
         print("out1",res)
 
         res = self.transform.homogenus_to_world(res)
@@ -121,7 +124,7 @@ if __name__ == "__main__":
 
 
     pl = Pipeline()
-    pl.transform.set_camera([10, 0, 100])
+    pl.transform.set_camera([1, 0, 100])
     # projected_p = pl.project(square)
     projected_origin = pl.project(origin)
     # projected_x_axis = pl.project(x_axis)
@@ -134,7 +137,7 @@ if __name__ == "__main__":
     vp = Viewport((50,50))
     # vp.render(projected_p)
     vp.render(projected_origin, color=255)
-    # vp.render(projected_y_axis, color=100)
+    # vp.render(projected_x_axis, color=100)
     # vp.render(projected_z_axis, color=50)
 
     # print(vp.data)
