@@ -15,7 +15,7 @@ class Viewport(object):
         pixels = pixels[:,:2].astype(int)
         return pixels
 
-    def render(self, points):
+    def render(self, points, color):
         w, h = self.data.shape
         pixels = self.coords_to_pixels(points)
 
@@ -28,7 +28,7 @@ class Viewport(object):
             if py == h:
                 py = py - 1
             if px in w_range and py in h_range:
-                self.data[px, py] = 255
+                self.data[px, py] = color
 
 
 if __name__ == "__main__":
