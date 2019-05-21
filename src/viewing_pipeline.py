@@ -61,9 +61,9 @@ class Pipeline(object):
         perspective_mat = self.transform.perspective_matrix
         view_mat = self.transform.get_camera_matrix()
         # FIXME does not work for some reason
-        # unproject_mat = np.linalg.inv(view_mat @ perspective_mat)
+        unproject_mat = np.linalg.inv(view_mat @ perspective_mat)
         # unproject_mat = view_mat @ perspective_mat
-        unproject_mat = np.linalg.inv(self.transform.view_matrix @ perspective_mat)
+        # unproject_mat = np.linalg.inv(self.transform.view_matrix @ perspective_mat)
         # unproject_mat = np.linalg.inv(perspective_mat @ view_mat)
 
         new_near_points = ndc_near_coords @ unproject_mat
@@ -73,11 +73,12 @@ class Pipeline(object):
         new_far_points = self.transform.homogenus_to_world(new_far_points)
 
 
-        print(new_near_points)
-        print(new_far_points)
+        # print(new_near_points)
+        # print(new_far_points)
         vec = new_far_points - new_near_points
+        return new_near_points, new_far_points
+        # print("vec", vec)
 
-        print("vec", vec)
 
 
     def draw(self, objects):
@@ -99,6 +100,7 @@ if __name__ == "__main__":
     from matplotlib import pyplot as plt
     from renderer import Viewport
     import geometry as g
+    from plane_intersection import ray_plane_intersection
 
 
     pl = Pipeline(viewport=(500,500))
@@ -107,10 +109,19 @@ if __name__ == "__main__":
     pl.transform.set_translation(y=0,x=0,z=-5)
 
     screen_point = np.array([
-        [250,250]
+        [250,250],
+        [0,350],
+        [250,500],
         ])
 
-    pl.unproject(screen_point)
-    # pl.draw(g.axis)
-    # pl.show()
+    n_points, f_points = pl.unproject(screen_point)
+    y_plane_norm = np.array([0,0,1])
+    z_plane_norm = np.array([0,1,0])
+    plane_point = np.array([0,0,0])
+
+
+    inter = ray_plane_intersection(n_points, f_points, plane_point, y_plane_norm)
+    print(inter)
+    pl.draw(g.axis)
+    pl.show()
    
