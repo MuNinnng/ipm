@@ -23,11 +23,6 @@ class Transform(object):
             ], dtype="float32")
 
         self.view_matrix = self.view_matrix @ translation_mat
-        print(self.view_matrix)
-
-        # new_p = p @ translation_mat
-
-        # return new_p
 
     def set_camera(self, position):
         """Set camera position in world coordinates.
@@ -36,7 +31,6 @@ class Transform(object):
         world transformation. If we translate Z axis for 1 step back(-1) in world, it means to
         make 1 step forward(+1) for camera.
         """
-        print(position)
         self.view_matrix[3,0] = position[0]
         self.view_matrix[3,1] = position[1]
         self.view_matrix[3,2] = position[2]
