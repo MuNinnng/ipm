@@ -28,7 +28,7 @@ class Viewport(object):
             if py == h:
                 py = py - 1
             if px in w_range and py in h_range:
-                self.data[px, py] = color
+                self.data[py, px] = color
 
 
 if __name__ == "__main__":
@@ -37,10 +37,9 @@ if __name__ == "__main__":
     vp = Viewport((50,50))
 
     test_data = np.array([
-        [0,1,0]
+        [1,0,0]
         ])
-    vp.render(test_data)
-    print(vp.data)
+    vp.render(test_data, color=255)
 
     plt.imshow(vp.data)
     plt.show()
