@@ -61,8 +61,6 @@ class Pipeline(object):
         # set pixel point at far plane
         ndc_far_coords[:, 2] = 1
 
-        print(ndc_near_coords)
-
         perspective_mat = self.transform.perspective_matrix
         view_mat = self.transform.get_camera_matrix()
         # FIXME does not work for some reason
@@ -88,9 +86,12 @@ class Pipeline(object):
 
     def draw(self, objects):
         for obj in objects:
-            projected = self.project(obj["geom"])
             if obj["type"] == "line":
+                projected = self.project(obj["geom"])
                 self.viewport.draw_lines(projected, color=obj["color"], width=obj["width"])
+            if obj["type"] == "point":
+                projected = self.project(obj["geom"])
+                self.viewport.draw_points(projected, color=obj["color"], size=obj["size"])
 
     def show(self):
         plt.imshow(self.viewport.image)
@@ -115,20 +116,26 @@ if __name__ == "__main__":
 
     screen_point = np.array([
         [250,250],
-        [250,0],
-        [250,500],
+        [350,250],
+        # [250,0],
+        [250,300],
         ])
 
     n_points, f_points = pl.unproject(screen_point)
-    y_plane_norm = np.array([0,0,1])
-    z_plane_norm = np.array([0,1,0])
+    zy_plane_norm = np.array([1,0,0])
+    zx_plane_norm = np.array([0,1,0])
+    xy_plane_norm = np.array([0,0,1])
     plane_point = np.array([0,0,0])
 
-    print(n_points)
+    test = [
+        {"geom": f_points, "type": "point", "color":(255,0,0), "size":3},
+    ]
 
-
-    # inter = ray_plane_intersection(n_points, f_points, plane_point, y_plane_norm)
+    # calc intersection
+    # inter = ray_plane_intersection(n_points, f_points, plane_point, xy_plane_norm)
+    # pl.viewport.draw_points(inter, color=(255,0,0), size=3)
     # print(inter)
-    # pl.draw(g.axis)
-    # pl.show()
+    pl.draw(g.axis)
+    pl.draw(test)
+    pl.show()
    
