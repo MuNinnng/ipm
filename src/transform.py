@@ -72,6 +72,11 @@ class Transform(object):
         res[:,2] = points[:,2]/w
         return res[:,:3]
 
+    def world_to_homogenus(self, points):
+        h = np.ones((points.shape[0],points.shape[1]+1))
+        h[:,:-1] = points
+        return h
+
     def perspective(self, fov, aspect, near, far):
         """Generates a perspective projection matrix with given bounds.
 
@@ -102,4 +107,3 @@ class Transform(object):
             ], dtype="float32")
 
         return perspective_mat
-
