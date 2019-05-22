@@ -24,6 +24,19 @@ class Transform(object):
 
         self.view_matrix = self.view_matrix @ translation_mat
 
+    def rotate_x(self, a=0):
+        """Rotate point by a."""
+        # turn value to radians
+        a = math.radians(a)
+        translation_mat = np.matrix([
+            [1,0,0,0],
+            [0,math.cos(a),math.sin(a),0],
+            [0,-math.sin(a),math.cos(a),0],
+            [0,0,0,1],
+            ], dtype="float32")
+
+        self.view_matrix = self.view_matrix @ translation_mat
+
     def rotate_y(self, a=0):
         """Rotate point by a."""
         # turn value to radians
