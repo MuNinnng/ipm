@@ -28,7 +28,7 @@ class Transform(object):
         """Rotate point by a."""
         # turn value to radians
         a = math.radians(a)
-        translation_mat = np.matrix([
+        translation_mat = np.array([
             [1,0,0,0],
             [0,math.cos(a),math.sin(a),0],
             [0,-math.sin(a),math.cos(a),0],
