@@ -113,8 +113,9 @@ if __name__ == "__main__":
 
     pl = Pipeline(viewport=(500,500))
     # pl.transform.set_camera([0, 0, -10])
-    # pl.transform.rotate_y(10)
     pl.transform.set_translation(y=0,x=0,z=-5)
+    pl.transform.rotate_x(20)
+    pl.transform.rotate_y(20)
 
     screen_point = np.array([
         [250,250],
@@ -122,6 +123,7 @@ if __name__ == "__main__":
         [250,350],
         [450,450],
         [10,10],
+        [260,270],
         # [250,0],
         # [250,300],
         ])
@@ -138,13 +140,15 @@ if __name__ == "__main__":
     ]
 
     # calc intersection
-    inter = ray_plane_intersection(n_points, f_points, plane_point, xy_plane_norm)
+    # inter = ray_plane_intersection(n_points, f_points, plane_point, xy_plane_norm)
+    inter = ray_plane_intersection(n_points, f_points, plane_point, zx_plane_norm)
     i = [
         {"geom": inter, "type": "point", "color":(255,255,0), "size":2},
     ]
     # pl.viewport.draw_points(inter, color=(255,255,0), size=3)
     pl.draw(g.axis)
     pl.draw(test)
+    pl.transform.rotate_y(90)
     pl.draw(i)
     pl.show()
    
