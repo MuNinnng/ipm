@@ -46,10 +46,10 @@ class Pipeline(object):
 
         ndc_coords = np.zeros((pixels.shape[0], 4), dtype="float32")
         ndc_coords[:,0] = (pixels[:,0] / w * 2) - 1
-        # ndc_coords[:,1] = (pixels[:,1] / h * 2) - 1
+        ndc_coords[:,1] = (pixels[:,1] / h * 2) - 1
         # flip Y axis direction because we have top left origin at image
         # and centric origin in NDC space
-        ndc_coords[:,1] = 1 - (pixels[:,1] / h * 2)
+        # ndc_coords[:,1] = 1 - (pixels[:,1] / h * 2)
         ndc_coords[:,2] = -1
         ndc_coords[:,3] = 1
 
@@ -119,8 +119,11 @@ if __name__ == "__main__":
     screen_point = np.array([
         [250,250],
         [350,250],
+        [250,350],
+        [450,450],
+        [10,10],
         # [250,0],
-        [250,300],
+        # [250,300],
         ])
 
     n_points, f_points = pl.unproject(screen_point)
@@ -130,14 +133,18 @@ if __name__ == "__main__":
     plane_point = np.array([0,0,0])
 
     test = [
-        {"geom": f_points, "type": "point", "color":(255,0,0), "size":3},
+        {"geom": f_points, "type": "point", "color":(0,255,255), "size":6},
+        {"geom": f_points, "type": "point", "color":(255,0,0), "size":4},
     ]
 
     # calc intersection
-    # inter = ray_plane_intersection(n_points, f_points, plane_point, xy_plane_norm)
-    # pl.viewport.draw_points(inter, color=(255,0,0), size=3)
-    # print(inter)
+    inter = ray_plane_intersection(n_points, f_points, plane_point, xy_plane_norm)
+    i = [
+        {"geom": inter, "type": "point", "color":(255,255,0), "size":2},
+    ]
+    # pl.viewport.draw_points(inter, color=(255,255,0), size=3)
     pl.draw(g.axis)
     pl.draw(test)
+    pl.draw(i)
     pl.show()
    
