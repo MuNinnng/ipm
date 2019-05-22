@@ -3,6 +3,8 @@ import numpy as np
 
 from transform import Transform
 
+from renderer import Viewport
+
 
 class Pipeline(object):
     def __init__(self, viewport):
@@ -106,7 +108,6 @@ class Pipeline(object):
 
 if __name__ == "__main__":
     from matplotlib import pyplot as plt
-    from renderer import Viewport
     import geometry as g
     from plane_intersection import ray_plane_intersection
 
@@ -136,7 +137,7 @@ if __name__ == "__main__":
 
     test = [
         {"geom": f_points, "type": "point", "color":(0,255,255), "size":6},
-        {"geom": f_points, "type": "point", "color":(255,0,0), "size":4},
+        {"geom": n_points, "type": "point", "color":(255,0,0), "size":4},
     ]
 
     # calc intersection
