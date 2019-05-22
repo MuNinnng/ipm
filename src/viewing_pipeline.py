@@ -19,6 +19,8 @@ class Pipeline(object):
         return new_points
 
     def project(self, points):
+        points = self.transform.world_to_homogenus(points)
+
         camera_mat = self.transform.get_camera_matrix()
         perspective_mat = self.transform.perspective_matrix
 
