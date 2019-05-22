@@ -44,7 +44,10 @@ class Pipeline(object):
 
         ndc_coords = np.zeros((pixels.shape[0], 4), dtype="float32")
         ndc_coords[:,0] = (pixels[:,0] / w * 2) - 1
-        ndc_coords[:,1] = (pixels[:,1] / h * 2) - 1
+        # ndc_coords[:,1] = (pixels[:,1] / h * 2) - 1
+        # flip Y axis direction because we have top left origin at image
+        # and centric origin in NDC space
+        ndc_coords[:,1] = 1 - (pixels[:,1] / h * 2)
         ndc_coords[:,2] = -1
         ndc_coords[:,3] = 1
 
@@ -57,6 +60,8 @@ class Pipeline(object):
         ndc_far_coords = np.copy(ndc_near_coords)
         # set pixel point at far plane
         ndc_far_coords[:, 2] = 1
+
+        print(ndc_near_coords)
 
         perspective_mat = self.transform.perspective_matrix
         view_mat = self.transform.get_camera_matrix()
@@ -110,7 +115,7 @@ if __name__ == "__main__":
 
     screen_point = np.array([
         [250,250],
-        [0,350],
+        [250,0],
         [250,500],
         ])
 
@@ -119,9 +124,11 @@ if __name__ == "__main__":
     z_plane_norm = np.array([0,1,0])
     plane_point = np.array([0,0,0])
 
+    print(n_points)
 
-    inter = ray_plane_intersection(n_points, f_points, plane_point, y_plane_norm)
-    print(inter)
-    pl.draw(g.axis)
-    pl.show()
+
+    # inter = ray_plane_intersection(n_points, f_points, plane_point, y_plane_norm)
+    # print(inter)
+    # pl.draw(g.axis)
+    # pl.show()
    
