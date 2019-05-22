@@ -23,13 +23,13 @@ class Viewport(object):
         points = [tuple(el) for el in pixels]
         self.d.line(points, width=width, fill=color)
 
-    def draw_points(self, points, color, width=2):
+    def draw_points(self, points, color, size=2):
         pixels = self.coords_to_pixels(points)
         # points = [tuple(el) for el in pixels]
         for p in pixels:
-            rec_min = p[:2]-width
-            rec_max = p[:2]+width
-            rec = [p[0]-width, p[1]-width, p[0]+width, p[1]+width]
+            rec_min = p[:2]-size
+            rec_max = p[:2]+size
+            rec = [p[0]-size, p[1]-size, p[0]+size, p[1]+size]
             self.d.rectangle(rec, fill=color)
 
 
@@ -47,7 +47,7 @@ if __name__ == "__main__":
     test_data = np.array([
         [1,0,0]
         ])
-    vp.draw_points(x_axis, color=(0,0,255), width=2)
+    vp.draw_points(x_axis, color=(0,0,255), size=2)
 
 
     plt.imshow(vp.image)
