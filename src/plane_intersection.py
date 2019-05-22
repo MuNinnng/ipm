@@ -54,22 +54,23 @@ def ray_plane_intersection(ray_start, ray_end, plane_point, plane_norm):
 
 if __name__ == "__main__":
 
-    y_plane_norm = np.array([0,0,1])
-    z_plane_norm = np.array([0,1,0])
+    zy_plane_norm = np.array([1,0,0])
+    zx_plane_norm = np.array([0,1,0])
+    xy_plane_norm = np.array([0,0,1])
     plane_point = np.array([0,0,0])
 
-    # r1 = np.array([
-    #     [10,10,0],
-    #     [10,10,0],
-    #     ])
-    # r2 = np.array([
-    #     [-10,10,0],
-    #     [-5,0,0],
-    #     ])
+    r1 = np.array([
+        # [10,10,0],
+        [10,10,0],
+        ])
+    r2 = np.array([
+        # [-10,10,0],
+        [-10,0,0],
+        ])
 
-    r1 = np.array([[0., 0.,5.50100001]])
-    r2 = np.array([[0.,0.,754.49277259]])
+    # r1 = np.array([[0., 0.,5.50100001]])
+    # r2 = np.array([[0.,0.,754.49277259]])
 
-    inter = ray_plane_intersection(r1, r2, plane_point, y_plane_norm)
+    inter = ray_plane_intersection(r1, r2, plane_point, zy_plane_norm)
     print("inter", inter)
     print("inter", type(inter))
