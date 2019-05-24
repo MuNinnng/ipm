@@ -7,26 +7,30 @@ from renderer import Viewport
 
 
 class Pipeline(object):
-    def __init__(self, viewport):
+    def __init__(self, viewport, proj_matrix=None):
         self.transform = Transform()
         self.viewport = Viewport(viewport)
+        self.proj_matrix = proj_matrix
 
-    def camera_transformation(self, points):
-        cam_matrix = self.transform.get_camera_matrix()
-        return points @ cam_matrix
-
-    def to_image_space(self, points):
-        new_points = points @ self.transform.perspective_matrix
-        new_points = self.transform.homogenus_to_world(new_points)
-        return new_points
-
-    def project(self, points):
-        points = self.transform.world_to_homogenus(points)
-
+    def calc_proj_matrix(self):
         camera_mat = self.transform.get_camera_matrix()
         perspective_mat = self.transform.perspective_matrix
 
         project_mat = camera_mat @ perspective_mat
+
+        return project_mat
+
+    def get_proj_matrix(self):
+        if self.proj_matrix is not None:
+            return self. proj_matrix
+        else:
+            return self.calc_proj_matrix()
+
+
+    def project(self, points):
+        points = self.transform.world_to_homogenus(points)
+
+        project_mat = self.get_proj_matrix()
         # project_mat = perspective_mat
         # project_mat = self.transform.view_matrix
         # project_mat = perspective_mat @ camera_mat
@@ -65,10 +69,8 @@ class Pipeline(object):
         # set pixel point at far plane
         ndc_far_coords[:, 2] = 1
 
-        perspective_mat = self.transform.perspective_matrix
-        view_mat = self.transform.get_camera_matrix()
-        # FIXME does not work for some reason
-        unproject_mat = np.linalg.inv(view_mat @ perspective_mat)
+        # unproject_mat = np.linalg.inv(view_mat @ perspective_mat)
+        unproject_mat = np.linalg.inv(self.get_proj_matrix())
         # unproject_mat = view_mat @ perspective_mat
         # unproject_mat = np.linalg.inv(self.transform.view_matrix @ perspective_mat)
         # unproject_mat = np.linalg.inv(perspective_mat @ view_mat)
