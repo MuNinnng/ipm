@@ -31,16 +31,8 @@ class Pipeline(object):
         points = self.transform.world_to_homogenus(points)
 
         project_mat = self.get_proj_matrix()
-        # project_mat = perspective_mat
-        # project_mat = self.transform.view_matrix
-        # project_mat = perspective_mat @ camera_mat
-        # convert objects to camera view
-        # res = self.camera_transformation(points)
-        # # convert to perspective view
-        # res = self.to_image_space(res)
 
         res = points @ project_mat
-        # res = project_mat @
         res = self.transform.homogenus_to_world(res)
         return res
         # # convert to screen view(projection)
@@ -69,11 +61,7 @@ class Pipeline(object):
         # set pixel point at far plane
         ndc_far_coords[:, 2] = 1
 
-        # unproject_mat = np.linalg.inv(view_mat @ perspective_mat)
         unproject_mat = np.linalg.inv(self.get_proj_matrix())
-        # unproject_mat = view_mat @ perspective_mat
-        # unproject_mat = np.linalg.inv(self.transform.view_matrix @ perspective_mat)
-        # unproject_mat = np.linalg.inv(perspective_mat @ view_mat)
 
         new_near_points = ndc_near_coords @ unproject_mat
         new_near_points = self.transform.homogenus_to_world(new_near_points)
@@ -121,12 +109,14 @@ if __name__ == "__main__":
     pl.transform.rotate_y(20)
 
     screen_point = np.array([
-        [250,250],
-        [350,250],
-        [250,350],
-        [450,450],
-        [10,10],
-        [260,270],
+        [0,0],
+        [500,500],
+        # [250,250],
+        # [350,250],
+        # [250,350],
+        # [450,450],
+        # [10,10],
+        # [260,270],
         # [250,0],
         # [250,300],
         ])
@@ -151,7 +141,7 @@ if __name__ == "__main__":
     # pl.viewport.draw_points(inter, color=(255,255,0), size=3)
     pl.draw(g.axis)
     pl.draw(test)
-    pl.transform.rotate_y(90)
+    # pl.transform.rotate_y(90)
     pl.draw(i)
     pl.show()
    
