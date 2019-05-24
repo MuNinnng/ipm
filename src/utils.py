@@ -3,6 +3,10 @@ import numpy as np
 
 
 def get_pixel_coords(size):
+    """Generate array of pixel coordinates.
+    
+    Useful for vector calculations instead loop in loop
+    """
     grid_w, grid_h = size
     grid_h_indices = list(range(grid_h)) * grid_w
     cell_h = np.reshape(grid_h_indices, (grid_w, grid_h))
