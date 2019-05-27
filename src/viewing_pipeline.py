@@ -44,10 +44,10 @@ class Pipeline(object):
 
         ndc_coords = np.zeros((pixels.shape[0], 4), dtype="float32")
         ndc_coords[:,0] = (pixels[:,0] / w * 2) - 1
-        ndc_coords[:,1] = (pixels[:,1] / h * 2) - 1
+        # ndc_coords[:,1] = (pixels[:,1] / h * 2) - 1
         # flip Y axis direction because we have top left origin at image
         # and centric origin in NDC space
-        # ndc_coords[:,1] = 1 - (pixels[:,1] / h * 2)
+        ndc_coords[:,1] = 1 - (pixels[:,1] / h * 2)
         ndc_coords[:,2] = -1
         ndc_coords[:,3] = 1
 
@@ -110,7 +110,7 @@ if __name__ == "__main__":
 
     screen_point = np.array([
         [0,0],
-        [500,500],
+        # [500,500],
         # [250,250],
         # [350,250],
         # [250,350],
