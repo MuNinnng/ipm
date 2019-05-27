@@ -38,8 +38,8 @@ def ipm(image_size, vangle=45):
     ipm_coord[:,1] = ipm_coord[:,1] + (ymin*-1)
 
     # change Y axis origin
-    # ymax = np.max(ipm_coord[:,1])
-    # ipm_coord[:,1] = ymax - ipm_coord[:,1]
+    ymax = np.max(ipm_coord[:,1])
+    ipm_coord[:,1] = ymax - ipm_coord[:,1]
 
     # normalize over biggest value
     ipm_coord_norm = ipm_coord / np.max(ipm_coord)
