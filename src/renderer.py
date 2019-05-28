@@ -27,22 +27,25 @@ class Viewport(object):
         self.image = Image.new('RGB', size, color=(255,255,255))
         self.d = ImageDraw.Draw(self.image)
 
-    def coords_to_pixels(self, points):
+    def coords_to_pixels(self, points: np.ndarray) -> np.ndarray:
         """Convert data from image space to screen space."""
 
         w,h = self.image.size
         pixels = np.copy(points)
         pixels[:,0] = (pixels[:,0] + 1)*w/2
+        # FIXME: it looks like Y axis should be flipped
         pixels[:,1] = (pixels[:,1] + 1)*h/2
         pixels = pixels[:,:2].astype(int)
         return pixels
 
-    def draw_lines(self, points, color, width=1):
+    def draw_lines(self, points: np.ndarray, color: Tuple[int, int, int],
+                   width :int=1) -> None:
         pixels = self.coords_to_pixels(points)
         points = [tuple(el) for el in pixels]
         self.d.line(points, width=width, fill=color)
 
-    def draw_points(self, points, color, size=2):
+    def draw_points(self, points: np.ndarray, color: Tuple[int, int, int],
+                    size: int=2) -> None:
         pixels = self.coords_to_pixels(points)
         # points = [tuple(el) for el in pixels]
         for p in pixels:
@@ -58,6 +61,8 @@ if __name__ == "__main__":
     x_axis = np.array([
         [0,0,0,1],
         [.5,0,0,1],
+        [1,0,0,1],
+        [0,1,0,1],
         ])
 
 
@@ -67,7 +72,6 @@ if __name__ == "__main__":
         [1,0,0]
         ])
     vp.draw_points(x_axis, color=(0,0,255), size=2)
-
 
     plt.imshow(vp.image)
     plt.show()
