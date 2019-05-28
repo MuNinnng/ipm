@@ -8,6 +8,7 @@ class Transform(object):
     def __init__(self) -> None:
         self.view_matrix = np.identity(4)
         # FIXME: use arguments during initialization of the class
+        # FIXME: now aspect ration(w/h) is always square, but could be rectangle
         self.perspective_matrix = self.perspective(45,1,1,500)
 
     def set_translation(self, x: int=0, y: int=0, z: int=0) -> np.ndarray:
