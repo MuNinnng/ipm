@@ -6,10 +6,31 @@ import numpy as np
 # https://www.youtube.com/watch?v=_P829ncXFZY
 
 
-def ray_plane_intersection(ray_start, ray_end, plane_point, plane_norm):
-    """Calculate plane intersection.
-    All augments should 2x2 arrays not matrices
+def ray_plane_intersection(ray_start: np.ndarray, ray_end: np.ndarray,
+                           plane_point: np.array, plane_norm: np.array): -> np.ndarray
+    """Calculate plane intersection with ray casted from screen.
+
+    Parameters
+    ----------
+    ray_start: np.ndarray
+        2D array where 1 dim contains amount of rays and 2 dim is ray coordinates
+    ray_end: np.ndarray
+        2D array where 1 dim contains amount of rays and 2 dim is ray coordinates
+    plane_point: np.array
+        1D array, vector of any point that is on the plane
+    plane_norm: np.array
+        1D array of plane normal vector
+
+    Returns
+    -------
+    np.ndarray
+        2D array of intersections points
+
+    Notes
+    -----
+    All augments should np.ndarray not np.matrix
     """
+
     # check type
     assert type(ray_start) == np.ndarray, "ray_start has to be numpy array"
     assert type(ray_end) == np.ndarray, "ray_end has to be numpy array"
@@ -25,7 +46,6 @@ def ray_plane_intersection(ray_start, ray_end, plane_point, plane_norm):
     assert ray_end.shape[1] == 3, "ray_end has to have 3 elements in 2 dimensional"
     assert plane_point.shape[0] == 3, "plane_point has to have 3 elements"
     assert plane_norm.shape[0] == 3, "plane_norm has to have 3 elements"
-
 
     # distance from beginning of the ray to its end
     ray_delta = ray_end - ray_start
