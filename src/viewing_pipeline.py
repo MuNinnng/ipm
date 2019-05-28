@@ -3,7 +3,7 @@ import numpy as np
 
 from transform import Transform
 
-from renderer import Viewport
+from viewport import Viewport
 
 
 class Pipeline(object):

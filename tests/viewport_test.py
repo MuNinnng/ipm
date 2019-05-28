@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from src.renderer import Viewport
+from src.viewport import Viewport
 
 def test_pixel_dims():
     ndc_points = np.array([
