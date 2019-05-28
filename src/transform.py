@@ -64,7 +64,7 @@ class Transform(object):
 
         self.view_matrix = self.view_matrix @ translation_mat
 
-    def set_camera(self, position: np.array) -? None:
+    def set_camera(self, position: np.array) -> None:
         """Set camera position in world coordinates.
 
         Use minus sign, because camera movements are mirrored to the
