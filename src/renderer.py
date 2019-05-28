@@ -69,6 +69,9 @@ class Viewport(object):
     def pixel_to_ndc_coord(self, pixels: np.ndarray) -> np.ndarray:
         """Convert pixel values to Normalized Device Coordinates."""
         w,h = self.size
+        # reduce size because of 0 based indexing, so num 500 has 499 index
+        w -= 1
+        h -= 1
 
         ndc_coords = np.zeros((pixels.shape[0], 4), dtype="float32")
         ndc_coords[:,0] = (pixels[:,0] / w * 2) - 1
