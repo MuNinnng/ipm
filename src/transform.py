@@ -5,12 +5,12 @@ import numpy as np
 
 
 class Transform(object):
-    def __init__(self):
+    def __init__(self) -> None:
         self.view_matrix = np.identity(4)
         # FIXME: use arguments during initialization of the class
         self.perspective_matrix = self.perspective(45,1,1,500)
 
-    def set_translation(self, x=0, y=0, z=0):
+    def set_translation(self, x: int=0, y: int=0, z: int=0) -> np.ndarray:
         """Translates point by a, b and c.
 
         Returns [x+a, y+b, z+c, 1]
@@ -24,7 +24,7 @@ class Transform(object):
 
         self.view_matrix = self.view_matrix @ translation_mat
 
-    def rotate_x(self, a=0):
+    def rotate_x(self, a: int=0) -> np.ndarray:
         """Rotate point by a."""
         # turn value to radians
         a = math.radians(a)
@@ -37,7 +37,7 @@ class Transform(object):
 
         self.view_matrix = self.view_matrix @ translation_mat
 
-    def rotate_y(self, a=0):
+    def rotate_y(self, a: int=0) -> np.ndarray:
         """Rotate point by a."""
         # turn value to radians
         a = math.radians(a)
@@ -50,7 +50,7 @@ class Transform(object):
 
         self.view_matrix = self.view_matrix @ translation_mat
 
-    def rotate_z(self, a=0):
+    def rotate_z(self, a: int=0) -> np.ndarray:
         """Rotate point by a."""
         # turn value to radians
         a = math.radians(a)
@@ -63,7 +63,7 @@ class Transform(object):
 
         self.view_matrix = self.view_matrix @ translation_mat
 
-    def set_camera(self, position):
+    def set_camera(self, position: np.array) -? None:
         """Set camera position in world coordinates.
 
         Use minus sign, because camera movements are mirrored to the
@@ -74,10 +74,10 @@ class Transform(object):
         self.view_matrix[3,1] = position[1]
         self.view_matrix[3,2] = position[2]
 
-    def get_camera_matrix(self):
+    def get_camera_matrix(self) -> np.ndarray:
         return np.linalg.inv(self.view_matrix)
 
-    def homogenus_to_world(self, points):
+    def homogenus_to_world(self, points: np.ndarray) -> np.ndarray:
         w = points[:,3]
         res = np.zeros(points.shape)
         res[:,0] = points[:,0]/w
@@ -85,12 +85,12 @@ class Transform(object):
         res[:,2] = points[:,2]/w
         return res[:,:3]
 
-    def world_to_homogenus(self, points):
+    def world_to_homogenus(self, points: np.ndarray) -> np.ndarray:
         h = np.ones((points.shape[0],points.shape[1]+1))
         h[:,:-1] = points
         return h
 
-    def perspective(self, fov, aspect, near, far):
+    def perspective(self, fov: int, aspect: float, near: int, far: int) -> np.ndarray:
         """Generates a perspective projection matrix with given bounds.
 
         :param fov: vertical field of view
