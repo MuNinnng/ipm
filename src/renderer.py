@@ -28,7 +28,19 @@ class Viewport(object):
         self.d = ImageDraw.Draw(self.image)
 
     def ndc_coord_to_pixel(self, points: np.ndarray) -> np.ndarray:
-        """Convert data from image space to screen space."""
+        """Convert data from image space(NDC) to screen space.
+
+        Converts from NDC to Image Space:
+
+        (-1,1)       (1,1)       (0,0)       (w,0)
+            +---------+             +---------+
+            |         |             |         |
+            |    +    |     -->     |         |
+            |  (0,0)  |             |         |
+            +---------+             +---------+
+        (-1,-1)      (1,-1)      (0,h)       (w,h)
+
+        """
 
         w,h = self.size
         # reduce size because of 0 based indexing, so num 500 has 499 index
