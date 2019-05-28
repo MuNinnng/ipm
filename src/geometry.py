@@ -4,14 +4,17 @@ import numpy as np
 origin = np.array([
     [0,0,0],
     ])
+
 x_axis = np.array([
     [0,0,0],
     [1,0,0],
     ])
+
 y_axis = np.array([
     [0,0,0],
     [0,1,0],
     ])
+
 z_axis = np.array([
     [0,0,0],
     [0,0,1],
@@ -22,8 +25,6 @@ axis = [
     {"geom": y_axis, "type": "line", "color":(0,255,0), "width":2},
     {"geom": z_axis, "type": "line", "color":(255,0,0), "width":2},
 ]
-
-
 
 square = np.array([
     [0,0],
