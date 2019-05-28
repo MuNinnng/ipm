@@ -38,25 +38,10 @@ class Pipeline(object):
         # # convert to screen view(projection)
         # res = to_screen_space(res)
 
-    def pixel_to_ndc(self, pixels, viewport_size):
-        """Convert pixel values to Normalized Device Coordinates."""
-        w,h = viewport_size
-
-        ndc_coords = np.zeros((pixels.shape[0], 4), dtype="float32")
-        ndc_coords[:,0] = (pixels[:,0] / w * 2) - 1
-        # ndc_coords[:,1] = (pixels[:,1] / h * 2) - 1
-        # flip Y axis direction because we have top left origin at image
-        # and centric origin in NDC space
-        ndc_coords[:,1] = 1 - (pixels[:,1] / h * 2)
-        ndc_coords[:,2] = -1
-        ndc_coords[:,3] = 1
-
-        return ndc_coords
-
     def unproject(self, pixels):
         # the Normalized Device Coordinates (NDC).
         # turn pixel value to Image space coordinates
-        ndc_near_coords = self.pixel_to_ndc(pixels, self.viewport.size)
+        ndc_near_coords = self.viewport.pixel_to_ndc_coord(pixels)
         ndc_far_coords = np.copy(ndc_near_coords)
         # set pixel point at far plane
         ndc_far_coords[:, 2] = 1

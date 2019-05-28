@@ -27,26 +27,42 @@ class Viewport(object):
         self.image = Image.new('RGB', size, color=(255,255,255))
         self.d = ImageDraw.Draw(self.image)
 
-    def coords_to_pixels(self, points: np.ndarray) -> np.ndarray:
+    def ndc_coord_to_pixel(self, points: np.ndarray) -> np.ndarray:
         """Convert data from image space to screen space."""
 
-        w,h = self.image.size
+        w,h = self.size
         pixels = np.copy(points)
+        print(points)
         pixels[:,0] = (pixels[:,0] + 1)*w/2
         # FIXME: it looks like Y axis should be flipped
         pixels[:,1] = (pixels[:,1] + 1)*h/2
         pixels = pixels[:,:2].astype(int)
         return pixels
 
+    def pixel_to_ndc_coord(self, pixels):
+        """Convert pixel values to Normalized Device Coordinates."""
+        w,h = self.size
+
+        ndc_coords = np.zeros((pixels.shape[0], 4), dtype="float32")
+        ndc_coords[:,0] = (pixels[:,0] / w * 2) - 1
+        # ndc_coords[:,1] = (pixels[:,1] / h * 2) - 1
+        # flip Y axis direction because we have top left origin at image
+        # and centric origin in NDC space
+        ndc_coords[:,1] = 1 - (pixels[:,1] / h * 2)
+        ndc_coords[:,2] = -1
+        ndc_coords[:,3] = 1
+
+        return ndc_coords
+
     def draw_lines(self, points: np.ndarray, color: Tuple[int, int, int],
                    width :int=1) -> None:
-        pixels = self.coords_to_pixels(points)
+        pixels = self.ndc_coord_to_pixel(points)
         points = [tuple(el) for el in pixels]
         self.d.line(points, width=width, fill=color)
 
     def draw_points(self, points: np.ndarray, color: Tuple[int, int, int],
                     size: int=2) -> None:
-        pixels = self.coords_to_pixels(points)
+        pixels = self.ndc_coord_to_pixel(points)
         # points = [tuple(el) for el in pixels]
         for p in pixels:
             rec_min = p[:2]-size
