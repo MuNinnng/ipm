@@ -75,7 +75,6 @@ class Viewport(object):
 
         ndc_coords = np.zeros((pixels.shape[0], 4), dtype="float32")
         ndc_coords[:,0] = (pixels[:,0] / w * 2) - 1
-        # ndc_coords[:,1] = (pixels[:,1] / h * 2) - 1
         # flip Y axis direction because we have top left origin at image
         # and centric origin in NDC space
         ndc_coords[:,1] = 1 - (pixels[:,1] / h * 2)
@@ -93,7 +92,6 @@ class Viewport(object):
     def draw_points(self, points: np.ndarray, color: Tuple[int, int, int],
                     size: int=2) -> None:
         pixels = self.ndc_coord_to_pixel(points)
-        # points = [tuple(el) for el in pixels]
         for p in pixels:
             rec_min = p[:2]-size
             rec_max = p[:2]+size
