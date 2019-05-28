@@ -39,7 +39,7 @@ class Viewport(object):
         pixels = pixels[:,:2].astype(int)
         return pixels
 
-    def pixel_to_ndc_coord(self, pixels):
+    def pixel_to_ndc_coord(self, pixels: np.ndarray) -> np.ndarray:
         """Convert pixel values to Normalized Device Coordinates."""
         w,h = self.size
 
