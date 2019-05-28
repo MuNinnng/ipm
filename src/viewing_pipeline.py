@@ -26,7 +26,6 @@ class Pipeline(object):
         else:
             return self.calc_proj_matrix()
 
-
     def project(self, points):
         points = self.transform.world_to_homogenus(points)
 
@@ -35,8 +34,6 @@ class Pipeline(object):
         res = points @ project_mat
         res = self.transform.homogenus_to_world(res)
         return res
-        # # convert to screen view(projection)
-        # res = to_screen_space(res)
 
     def unproject(self, pixels):
         # the Normalized Device Coordinates (NDC).
@@ -54,14 +51,8 @@ class Pipeline(object):
         new_far_points = ndc_far_coords @ unproject_mat
         new_far_points = self.transform.homogenus_to_world(new_far_points)
 
-
-        # print(new_near_points)
-        # print(new_far_points)
         vec = new_far_points - new_near_points
         return new_near_points, new_far_points
-        # print("vec", vec)
-
-
 
     def draw(self, objects):
         for obj in objects:
@@ -78,8 +69,6 @@ class Pipeline(object):
         plt.gca().invert_yaxis()
         plt.show()
 
-        # print(new_favecr_points)
-
 
 if __name__ == "__main__":
     from matplotlib import pyplot as plt
@@ -95,8 +84,8 @@ if __name__ == "__main__":
 
     screen_point = np.array([
         [0,0],
-        # [500,500],
-        # [250,250],
+        [500,500],
+        [250,250],
         # [350,250],
         # [250,350],
         # [450,450],
