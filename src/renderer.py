@@ -101,31 +101,3 @@ class Viewport(object):
             self.d.rectangle(rec, fill=color)
 
 
-if __name__ == "__main__":
-    from matplotlib import pyplot as plt
-
-    x_axis = np.array([
-        [-1,0,0,1],
-        [0,0,0,1],
-        [.5,0,0,1],
-        [1,0,0,1],
-        ])
-    y_axis = np.array([
-        [0,-1,0,1],
-        [0,0,0,1],
-        [0,.5,0,1],
-        [0,1,0,1],
-        ])
-
-
-    vp = Viewport((500,500))
-
-    test_data = np.array([
-        [1,0,0]
-        ])
-    vp.draw_points(y_axis, color=(0,0,255), size=2)
-
-    plt.imshow(vp.image)
-    # plt.gca().invert_yaxis()
-    plt.show()
-
