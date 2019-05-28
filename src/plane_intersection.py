@@ -6,7 +6,8 @@ import numpy as np
 # https://www.youtube.com/watch?v=_P829ncXFZY
 
 
-def ray_plane_intersection(ray_start: np.ndarray, ray_end: np.ndarray,plane_point: np.array, plane_norm: np.array) -> np.ndarray:
+def ray_plane_intersection(ray_start: np.ndarray, ray_end: np.ndarray,
+                           plane_point: np.array, plane_norm: np.array) -> np.ndarray:
     """Calculate plane intersection with ray casted from screen.
 
     Parameters
@@ -69,27 +70,3 @@ def ray_plane_intersection(ray_start: np.ndarray, ray_end: np.ndarray,plane_poin
     plane_intersection = ray_start + int_ray_delta
 
     return plane_intersection
-
-
-if __name__ == "__main__":
-
-    zy_plane_norm = np.array([1,0,0])
-    zx_plane_norm = np.array([0,1,0])
-    xy_plane_norm = np.array([0,0,1])
-    plane_point = np.array([0,0,0])
-
-    r1 = np.array([
-        # [10,10,0],
-        [10,10,0],
-        ])
-    r2 = np.array([
-        # [-10,10,0],
-        [-10,0,0],
-        ])
-
-    # r1 = np.array([[0., 0.,5.50100001]])
-    # r2 = np.array([[0.,0.,754.49277259]])
-
-    inter = ray_plane_intersection(r1, r2, plane_point, zy_plane_norm)
-    print("inter", inter)
-    print("inter", type(inter))
