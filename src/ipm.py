@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from typing import Tuple
+
 import numpy as np
 
 from plane_intersection import ray_plane_intersection
@@ -6,7 +8,7 @@ from viewing_pipeline import Pipeline
 from utils import get_pixel_coords
 
 
-def ipm(image_size, vangle=45):
+def ipm(image_size: Tuple[int, int], vangle: int=45): -> tuple
     """Calculate map of image pixel to invert image projection."""
 
     pl = Pipeline(viewport=image_size)
@@ -43,7 +45,5 @@ def ipm(image_size, vangle=45):
 
     # normalize over biggest value
     ipm_coord_norm = ipm_coord / np.max(ipm_coord)
-
-
 
     return screen_pixels, ipm_coord_norm
