@@ -40,6 +40,17 @@ class Viewport(object):
             +---------+             +---------+
         (-1,-1)      (1,-1)      (0,h)       (w,h)
 
+        Parameters
+        ---------
+        points: np.ndarray
+            2D array of points with shape (N of points, 3). Points value should be in range form -1 to 1
+
+
+        Returns
+        -------
+        np.ndarray
+            2D array of shape (N of points, 2)
+
         """
 
         w,h = self.size
@@ -49,16 +60,10 @@ class Viewport(object):
 
         pixels = np.copy(points)
         pixels[:,0] = (pixels[:,0] + 1)*w/2
-        print(points[:,0])
-        print(pixels[:,0])
-        # (pixels[:,0] * w / 2) + 1
-        # FIXME: it looks like Y axis should be flipped
+        # Flip Y axis origin
         pixels[:,1] = (1 - pixels[:,1])*h/2
-
-        print(points[:,1])
-        print(pixels[:,1])
-        # pixels[:,1] = (1-pixels[:,1] + 1)*h/2
         pixels = pixels[:,:2].astype(int)
+
         return pixels
 
     def pixel_to_ndc_coord(self, pixels: np.ndarray) -> np.ndarray:
