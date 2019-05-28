@@ -66,7 +66,6 @@ class Pipeline(object):
     def show(self):
         plt.imshow(self.viewport.image)
         # inverse Y axis because of image coord system
-        plt.gca().invert_yaxis()
         plt.show()
 
 
