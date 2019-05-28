@@ -1,17 +1,36 @@
+# -*- coding: utf-8 -*-
+from typing import Tuple
+
 import numpy as np
 from PIL import Image, ImageDraw
 
 
 class Viewport(object):
-    def __init__(self, size):
+    """Draw geometry objects on image.
+
+    Viewport allows to visualize viewing transformation results of 3D scene.
+    It represents camera viewing results.
+
+    Attributes
+    ----------
+    size: tuple of ints
+        viewport size in pixels.
+    image: PIL Image
+        contains viewport drawing results
+    d:
+        Pillow drawing object
+
+    """
+
+    def __init__(self, size: Tuple[int, int]) -> None:
         self.size = size
-        self.data = np.zeros(size)
         self.image = Image.new('RGB', size, color=(255,255,255))
         self.d = ImageDraw.Draw(self.image)
 
     def coords_to_pixels(self, points):
-        w,h = self.data.shape
         """Convert data from image space to screen space."""
+
+        w,h = self.image.size
         pixels = np.copy(points)
         pixels[:,0] = (pixels[:,0] + 1)*w/2
         pixels[:,1] = (pixels[:,1] + 1)*h/2
