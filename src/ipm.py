@@ -8,8 +8,21 @@ from viewing_pipeline import Pipeline
 from utils import get_pixel_coords
 
 
-def ipm(image_size: Tuple[int, int], vangle: int=45): -> tuple
-    """Calculate map of image pixel to invert image projection."""
+def ipm(image_size: Tuple[int, int], vangle: int=90): -> tuple
+    """Calculate map of image pixel to invert image projection.
+
+    Parameters
+    ----------
+    image_size: tuple
+        size of the image
+    vangle: int
+        camera vertical angle. When vangle is 90 camera is in the zenith(bird eye view)
+
+    Returns
+    -------
+    tuple of np.arrays
+        tuple of original image pixel coordinated and its unprojected values
+    """
 
     pl = Pipeline(viewport=image_size)
     pl.transform.rotate_x(vangle)
