@@ -8,7 +8,7 @@ from viewing_pipeline import Pipeline
 from utils import get_pixel_coords
 
 
-def ipm(image_size: Tuple[int, int], vangle: int=90): -> tuple
+def ipm(image_size: Tuple[int, int], vangle: int=90) -> tuple:
     """Calculate map of image pixel to invert image projection.
 
     Parameters
