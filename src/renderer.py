@@ -31,11 +31,21 @@ class Viewport(object):
         """Convert data from image space to screen space."""
 
         w,h = self.size
+        # reduce size because of 0 based indexing, so num 500 has 499 index
+        w -= 1
+        h -= 1
+
         pixels = np.copy(points)
-        print(points)
         pixels[:,0] = (pixels[:,0] + 1)*w/2
+        print(points[:,0])
+        print(pixels[:,0])
+        # (pixels[:,0] * w / 2) + 1
         # FIXME: it looks like Y axis should be flipped
-        pixels[:,1] = (pixels[:,1] + 1)*h/2
+        pixels[:,1] = (1 - pixels[:,1])*h/2
+
+        print(points[:,1])
+        print(pixels[:,1])
+        # pixels[:,1] = (1-pixels[:,1] + 1)*h/2
         pixels = pixels[:,:2].astype(int)
         return pixels
 
@@ -75,9 +85,15 @@ if __name__ == "__main__":
     from matplotlib import pyplot as plt
 
     x_axis = np.array([
+        [-1,0,0,1],
         [0,0,0,1],
         [.5,0,0,1],
         [1,0,0,1],
+        ])
+    y_axis = np.array([
+        [0,-1,0,1],
+        [0,0,0,1],
+        [0,.5,0,1],
         [0,1,0,1],
         ])
 
@@ -87,8 +103,9 @@ if __name__ == "__main__":
     test_data = np.array([
         [1,0,0]
         ])
-    vp.draw_points(x_axis, color=(0,0,255), size=2)
+    vp.draw_points(y_axis, color=(0,0,255), size=2)
 
     plt.imshow(vp.image)
+    # plt.gca().invert_yaxis()
     plt.show()
 
