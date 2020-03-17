@@ -11,7 +11,7 @@ class Transform(object):
         # FIXME: now aspect ration(w/h) is always square, but could be rectangle
         self.perspective_matrix = self.perspective(45,1,1,500)
 
-    def set_translation(self, x: int=0, y: int=0, z: int=0) -> np.ndarray:
+    def translate(self, x: int=0, y: int=0, z: int=0) -> np.ndarray:
         """Translates point by a, b and c.
 
         Returns [x+a, y+b, z+c, 1]

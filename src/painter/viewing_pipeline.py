@@ -77,8 +77,9 @@ if __name__ == "__main__":
 
     pl = Pipeline(viewport=(500,500))
     # pl.transform.set_camera([0, 0, -10])
-    pl.transform.set_translation(y=0,x=0,z=-5)
+    pl.transform.translate(y=0,x=0,z=-5)
     pl.transform.rotate_x(20)
+    # pl.transform.rotate_z(20)
     pl.transform.rotate_y(20)
 
     screen_point = np.array([
