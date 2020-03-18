@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 import numpy as np
+from matplotlib import pyplot as plt
 
-from transform import Transform
+from painter.viewport import Viewport
+from painter.transform import Transform
 
-from viewport import Viewport
 
 
 class Pipeline(object):
@@ -22,7 +23,7 @@ class Pipeline(object):
 
     def get_proj_matrix(self):
         if self.proj_matrix is not None:
-            return self. proj_matrix
+            return self.proj_matrix
         else:
             return self.calc_proj_matrix()
 
@@ -78,7 +79,7 @@ if __name__ == "__main__":
     pl = Pipeline(viewport=(500,500))
     # pl.transform.set_camera([0, 0, -10])
     pl.transform.translate(y=0,x=0,z=-5)
-    pl.transform.rotate_x(20)
+    pl.transform.rotate_x(45)
     # pl.transform.rotate_z(20)
     pl.transform.rotate_y(20)
 
